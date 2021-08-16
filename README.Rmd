@@ -9,27 +9,22 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+setwd("D:/CU/Thesis/BinaryShapeClust/BinaryShapeClust")
 ```
 
-# BinaryShapeClust
+# Binary Shape-Based Clustering
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of BinaryShapeClust is to ...
+This repository is accompanies "Shape-Based Clustering of Daily Weigh-In Trajectories using Dynamic 
+Time Warping" (doi). The aim of the paper was to use Dynamic Time Warping, a shape-based clutering method, to cluster binary trajectories and evaluate patterns. Study data is not made publically available, however simulated data to resemble the study data is used and shared in this repository. 
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+- Source files to load in data (data cleaning and simulation data)       
 
-```{r cars}
-summary(cars)
+```{r}
+source("Code/01_CleanStudyData.R")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+- Plot the binary heatmap (this should be a file of its own to make heat maps based on the data)        
+- Cluster the data using Euclidean, Jaccard, and DTW and show how to use probability windows and linkages
