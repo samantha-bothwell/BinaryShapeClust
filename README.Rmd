@@ -26,7 +26,21 @@ Time Warping" (doi). The aim of the paper was to use Dynamic Time Warping, a sha
 
 ```{r}
 source("Code/01_CleanStudyData.R")
+source("Code/02_SimulateClusters.R")
 ```
 
-- Plot the binary heatmap (this should be a file of its own to make heat maps based on the data)        
+- Plot the binary heatmap (this should be a file of its own to make heat maps based on the data) 
+
+```{r, fig.width = 15}
+#### Function not incorporated yet
+source("Code/ClusterHeatmap.R")
+
+ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
+    geom_tile() + ggtitle("True Data Clusters and Mean Adherence %") + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    scale_fill_viridis(discrete = TRUE, option="A") +
+    facet_wrap(~cluster_assignment, scales = "free", ncol = 5)
+```
+
+
 - Cluster the data using Euclidean, Jaccard, and DTW and show how to use probability windows and linkages

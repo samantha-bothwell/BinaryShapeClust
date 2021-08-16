@@ -20,9 +20,26 @@ is used and shared in this repository.
 
 ``` r
 source("Code/01_CleanStudyData.R")
+source("Code/02_SimulateClusters.R")
 ```
 
   - Plot the binary heatmap (this should be a file of its own to make
-    heat maps based on the data)  
+    heat maps based on the data)
+
+<!-- end list -->
+
+``` r
+#### Function not incorporated yet
+source("Code/ClusterHeatmap.R")
+
+ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
+    geom_tile() + ggtitle("True Data Clusters and Mean Adherence %") + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    scale_fill_viridis(discrete = TRUE, option="A") +
+    facet_wrap(~cluster_assignment, scales = "free", ncol = 5)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
   - Cluster the data using Euclidean, Jaccard, and DTW and show how to
     use probability windows and linkages

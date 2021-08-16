@@ -18,7 +18,7 @@ weights <- read.csv("D:/CU/Thesis/Clustering/Data/daily_weights_with_confounding
 ### Remove cohort 3 
 ### Calculate percent change in weight and weight loss
 weights = weights %>%
-  filter(study_days <= 360, cohort != 3) %>%
+  filter(study_days <= 365, cohort != 3) %>%
   arrange(participant_id, study_days) %>%
   group_by(participant_id) %>%
   mutate(percent_change = (wt_lb - first(wt_lb))/first(wt_lb) * 100,
@@ -32,7 +32,7 @@ adherence = weights %>%
   mutate(weighed_in = 1) %>%
   complete(participant_id, nesting(study_days), fill = list(weighed_in = 0)) %>%
   group_by(participant_id) %>%
-  mutate(percent_adherence = sum(weighed_in)/400 * 100) %>%
+  mutate(percent_adherence = sum(weighed_in)/365 * 100) %>%
   ungroup() %>%
   arrange(percent_adherence, participant_id) %>%
   dplyr::select(participant_id, study_days, weighed_in, percent_adherence, everything())
