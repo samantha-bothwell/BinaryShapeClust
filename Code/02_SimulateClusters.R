@@ -75,3 +75,15 @@ sim_plot = sim_dat %>%
   mutate(weighed_in = factor(adherence, levels = 0:1, labels = c("no", "yes")),
     participant_id = fct_reorder(id, percent_adherence),
     cluster_assignment = paste0("cluster_", cluster_label, " \n Mean Adherence = ", mean.adherence))
+
+sim_clust = sim_dat %>% 
+  group_by(id) %>%
+  mutate(percent_adherence = sum(adherence)/400 * 100) %>%
+  ungroup() %>% 
+  dplyr::select(id, percent_adherence, cluster_label, day, adherence) %>%
+  mutate(day = paste0("day_", day)) %>%
+  distinct() %>%
+  pivot_wider(names_from = day, values_from = adherence)
+
+adherence_mat = as.matrix(sim_clust[,-c(1:3)])
+rownames(adherence_mat) <- sim_clust$id

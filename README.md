@@ -19,6 +19,13 @@ is used and shared in this repository.
 <!-- end list -->
 
 ``` r
+### Libraries 
+library(tidyverse)
+library(ggplot2)
+library(dtwclust) # cluster time series with dynamic time warping
+library(ecodist) # distance function for jaccard
+
+### Source files
 source("Code/01_CleanStudyData.R")
 source("Code/02_SimulateClusters.R")
 ```
@@ -30,6 +37,7 @@ source("Code/02_SimulateClusters.R")
 
 ``` r
 #### Function not incorporated yet
+#### Sort by % adherence
 source("Code/ClusterHeatmap.R")
 
 ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
@@ -39,7 +47,26 @@ ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
     facet_wrap(~cluster_assignment, scales = "free", ncol = 5)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/simfig-1.png)<!-- -->
 
   - Cluster the data using Euclidean, Jaccard, and DTW and show how to
     use probability windows and linkages
+
+<!-- end list -->
+
+``` r
+### Using binary data
+jac_dist <- distance(adherence_mat, method = 'jaccard')
+dtw_dist <- dist(adherence_mat, method = 'dtw')
+euc_dist <- distance(adherence_mat, method = 'euclidean')
+```
+
+``` r
+### Using continuous data
+source("Code/RollAvg.R")
+roll_mat = roll_avg(adherence_mat, window = 14) # window size can be adjusted
+
+jac_dist_roll <- distance(roll_mat, method = 'jaccard')
+dtw_dist_roll <- dist(roll_mat, method = 'dtw')
+euc_dist_roll <- distance(roll_mat, method = 'euclidean')
+```

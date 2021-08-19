@@ -18,5 +18,5 @@ roll_avg = function(x, window = 14){
   for(i in 1:dim(x)[1]){
     roll_mat[i,] = roll_sum(x[i,], width = window, min_obs = 1)/window
   }
-  return(roll_mat)
+  return(roll_mat[,-c(1:(window - 1))])
 }
