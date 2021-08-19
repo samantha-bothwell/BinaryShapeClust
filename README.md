@@ -51,6 +51,7 @@ ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
 
   - Cluster the data using Euclidean, Jaccard, and DTW and show how to
     use probability windows and linkages
+      - Calculate distance
 
 <!-- end list -->
 
@@ -70,3 +71,55 @@ jac_dist_roll <- distance(roll_mat, method = 'jaccard')
 dtw_dist_roll <- dist(roll_mat, method = 'dtw')
 euc_dist_roll <- distance(roll_mat, method = 'euclidean')
 ```
+
+  - Cluster - specify linkage and number of clusters
+
+<!-- end list -->
+
+``` r
+### Method can be specified as 'average', 'single', 'complete', or 'Ward'
+### Provide the distance matrix you want to cluster
+clust <- hclust(dtw_dist_roll, method = "average")
+
+### Specify the number of clusters 
+cut <- cutree(clust, k = 5)
+
+### Visualize dendrogram
+plot(clust)
+rect.hclust(clust, k = 5, border = 2:6)
+```
+
+![](README_files/figure-gfm/dendrogram-1.png)<!-- -->
+
+  - Visualize clustering results
+
+<!-- end list -->
+
+``` r
+### Add simulated clustering labels
+hclus <- stats::cutree(clust, k = 5) %>% 
+  as.data.frame(.) %>%
+  dplyr::rename(.,cluster_group = .) %>%
+  tibble::rownames_to_column("type_col")
+
+hcdata <- ggdendro::dendro_data(clust)
+names_order <- hcdata$labels$label
+
+### Plot - plotting the binary data heat map based on the rolling average clustering
+data.frame(t(adherence_mat[,-c(1:13)])) %>%
+  dplyr::mutate(index = 1:352) %>%
+  dplyr::rename_all(funs(stringr::str_replace_all(., "X", ""))) %>% 
+  tidyr::gather(key = type_col,value = value, -index) %>%
+  dplyr::full_join(., hclus, by = "type_col") %>% 
+  mutate(type_col = factor(type_col, levels = as.character(names_order)), 
+         weighed_in = factor(value, levels = 0:1, labels = c("no", "yes"))) %>% 
+  ggplot(aes(x = index, y = type_col, fill = weighed_in)) +
+  geom_tile() +
+  scale_fill_viridis(discrete = TRUE, option="A") +
+  facet_wrap(~cluster_group, ncol = 5, scales = "free") + 
+  guides(fill=FALSE) + 
+  theme_bw() + ylab("Subject") +
+  theme(strip.background = element_blank(), strip.text = element_blank())
+```
+
+![](README_files/figure-gfm/clustfig-1.png)<!-- -->
