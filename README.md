@@ -9,7 +9,7 @@
 
 This repository accompanies “Shape-Based Clustering of Daily Weigh-In
 Trajectories using Dynamic Time Warping” (doi). The aim of the paper was
-to use Dynamic Time Warping, a shape-based clutering method, to cluster
+to use Dynamic Time Warping, a shape-based clustering method, to cluster
 binary trajectories and evaluate patterns. Study data is not made
 publically available, however simulated data to resemble the study data
 is used and shared in this repository.
