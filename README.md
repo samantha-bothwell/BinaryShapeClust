@@ -127,9 +127,10 @@ data.frame(t(adherence_mat[,-c(1:13)])) %>%
 
 ![](README_files/figure-gfm/clustfig-1.png)<!-- -->
 
-  - Validation Indices
-
-<!-- end list -->
+It looks like the correct subjects were sorted into the correct
+clusters. To verify, we can use external vailidation to assess if the
+true cluster assignment matches the assigned one under dynamic time
+warping.
 
 ``` r
 #### Source Validation Indices which will calculate validation indices based on user input
@@ -144,16 +145,25 @@ sim_clust$cluster_label <- ifelse(sim_clust$cluster_label == "low", 1,
 # Provide true clusters for external validation
 external_validation = validation(cut_matrix = cut, true_clusters = sim_clust$cluster_label)
 
+external_validation
+#>         ARI        RI         J        FM       VI
+#> 1 0.7755102 0.9191919 0.7037037 0.8388705 0.120412
+
 # Output table 
 #kable(external_validation, center = T) %>%
 #  kable_styling(full_width = F)
   
 ```
 
+If we do not know the true cluster assingment, we can use internal
+validation indices instead.
+
 ``` r
 # Provide original matrix and distance for internal validation
 internal_validation = validation(matrix = roll_mat, distance = dtw_dist_roll, cut_matrix = cut)
-
+internal_validation
+#>   Silhouette      Dunn DaviesBouldin Calinhara
+#> 1  0.5701216 0.2849829     0.9171524  41.63504
 # Output table 
 #kable(internal_validation, center = T) %>%
 #  kable_styling(full_width = F)
