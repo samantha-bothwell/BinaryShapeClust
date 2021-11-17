@@ -24,6 +24,7 @@ library(tidyverse)
 library(ggplot2)
 library(dtwclust) # cluster time series with dynamic time warping
 library(ecodist) # distance function for jaccard
+library(kableExtra)
 
 ### Source files
 source("Code/01_CleanStudyData.R")
@@ -127,3 +128,33 @@ data.frame(t(adherence_mat[,-c(1:13)])) %>%
 ![](README_files/figure-gfm/clustfig-1.png)<!-- -->
 
   - Validation Indices
+
+<!-- end list -->
+
+``` r
+#### Source Validation Indices which will calculate validation indices based on user input
+source('Code/ValidationIndices.R')
+
+# Rename cluster labels for validation 
+sim_clust$cluster_label <- ifelse(sim_clust$cluster_label == "low", 1, 
+    ifelse(sim_clust$cluster_label == "dropout", 2, 
+      ifelse(sim_clust$cluster_label == "vacation", 3, 
+        ifelse(sim_clust$cluster_label == "med_adherence", 4, 5))))
+
+# Provide true clusters for external validation
+external_validation = validation(cut_matrix = cut, true_clusters = sim_clust$cluster_label)
+
+# Output table 
+#kable(external_validation, center = T) %>%
+#  kable_styling(full_width = F)
+  
+```
+
+``` r
+# Provide original matrix and distance for internal validation
+internal_validation = validation(matrix = roll_mat, distance = dtw_dist_roll, cut_matrix = cut)
+
+# Output table 
+#kable(internal_validation, center = T) %>%
+#  kable_styling(full_width = F)
+```

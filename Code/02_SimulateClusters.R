@@ -19,9 +19,9 @@ source("Code/01_CleanStudyData.R")
 days = 365
 
 # Quartile clusters
-low = make_clusters(N = 10, days = days, adherence_probability = summary(adher$percent_adherence)[2]/100, cluster_label = "low")
-medium = make_clusters(N = 25, days = days, adherence_probability = summary(adher$percent_adherence)[3]/100, cluster_label = "med") %>% mutate(id = id + 10)
-high = make_clusters(N = 15, days = days, adherence_probability = summary(adher$percent_adherence)[5]/100, cluster_label = "high") %>% mutate(id = id + 35)
+low = make_clusters(N = 20, days = days, adherence_probability = summary(adher$percent_adherence)[2]/100, cluster_label = "low")
+medium = make_clusters(N = 20, days = days, adherence_probability = summary(adher$percent_adherence)[3]/100, cluster_label = "med") %>% mutate(id = id + 20)
+high = make_clusters(N = 20, days = days, adherence_probability = summary(adher$percent_adherence)[5]/100, cluster_label = "high") %>% mutate(id = id + 40)
 
 ### Dropout Cluster 
 ### Randomize the dropout day from a Normal distribution
@@ -34,14 +34,14 @@ for(i in 1:N){
 }
 
 dropout =  tibble(
-  id = rep(1:N, each = days) + 50,
+  id = rep(1:N, each = days) + 60,
   day = rep(1:days, times = N),
   adherence = drop_adherence,
   cluster_label = "dropout")
 
 
 ### Large strings of no adherence
-N = 10
+N = 20
 vacation = make_clusters(N = N, days = days, adherence_probability = summary(adher$percent_adherence)[3]/100, 
   cluster_label = "vacation")[,-4]
 zero_days = runif(N, min = 30, max = 300) # find which day the zero string starts 
@@ -58,8 +58,8 @@ zeros$adherence = 0
 
 vacation = left_join(vacation, zeros, by = c("id", "day")) %>% 
   mutate(adherence = ifelse(!is.na(adherence.y), adherence.y, adherence.x)) %>% 
-  select(id, day, adherence) %>% 
-  mutate(cluster_label = "vacation", id = id + 70)
+  dplyr::select(id, day, adherence) %>% 
+  mutate(cluster_label = "vacation", id = id + 80)
 
 # Combine data
 sim_dat = rbind(low, medium, high, dropout, vacation)
