@@ -5,7 +5,6 @@
 *.rda
 *.rdata
 *.rda
-*.csv
 *.txt
 *.dat
 *.xls*
