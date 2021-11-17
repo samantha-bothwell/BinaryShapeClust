@@ -16,7 +16,7 @@ is used and shared in this repository.
 
 We first load necessary libraries and source files that clean the study
 data that is used to simulate clusters. The simulated dataset can be
-accessed in the `Data/DataSimulated` folder.
+accessed in the Data/DataSimulated folder.
 
 ``` r
 ### Libraries 
@@ -49,11 +49,8 @@ ggplot(sim_plot, aes(x = day, y = participant_id, fill = weighed_in)) +
 
 ![](README_files/figure-gfm/simfig-1.png)<!-- -->
 
-  - Cluster the data using Euclidean, Jaccard, and DTW and show how to
-    use probability windows and linkages
-      - Calculate distance
-
-<!-- end list -->
+We use the Euclidan, Jaccard, and DTW distances in the paper to cluster
+on our binary data and a rolling probability window of the binary data.
 
 ``` r
 ### Using binary data
@@ -61,6 +58,10 @@ jac_dist <- distance(adherence_mat, method = 'jaccard')
 dtw_dist <- dist(adherence_mat, method = 'dtw')
 euc_dist <- distance(adherence_mat, method = 'euclidean')
 ```
+
+The RollAvg.R code file provides a `roll_avg` function that requires the
+binary adherence matrix and a rolling window size. In this example we
+calculate a 14-day rolling probability window.
 
 ``` r
 ### Using continuous data
@@ -72,9 +73,11 @@ dtw_dist_roll <- dist(roll_mat, method = 'dtw')
 euc_dist_roll <- distance(roll_mat, method = 'euclidean')
 ```
 
-  - Cluster - specify linkage and number of clusters
-
-<!-- end list -->
+In the paper, we cluster under the average, single, complete, and Ward
+linkages. In this example, we cluster using the average linkage with the
+DTW distance using a 14-day rolling probability window. We define 5
+clusters and the dendrogram below visualizes how the clusters are
+determined.
 
 ``` r
 ### Method can be specified as 'average', 'single', 'complete', or 'Ward'
@@ -91,9 +94,8 @@ rect.hclust(clust, k = 5, border = 2:6)
 
 ![](README_files/figure-gfm/dendrogram-1.png)<!-- -->
 
-  - Visualize clustering results
-
-<!-- end list -->
+With our binary heatmap adherences, we can assess how well the
+clustering algorithm worked.
 
 ``` r
 ### Add simulated clustering labels
@@ -123,3 +125,5 @@ data.frame(t(adherence_mat[,-c(1:13)])) %>%
 ```
 
 ![](README_files/figure-gfm/clustfig-1.png)<!-- -->
+
+  - Validation Indices
