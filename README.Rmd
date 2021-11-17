@@ -22,7 +22,7 @@ setwd("D:/CU/Thesis/BinaryShapeClust/BinaryShapeClust")
 This repository is accompanies "Shape-Based Clustering of Daily Weigh-In Trajectories using Dynamic 
 Time Warping" (doi). The aim of the paper was to use Dynamic Time Warping, a shape-based clutering method, to cluster binary trajectories and evaluate patterns. Study data is not made publically available, however simulated data to resemble the study data is used and shared in this repository. 
 
-- Source files to load in data (data cleaning and simulation data)       
+We first load necessary libraries and source files that clean the study data that is used to simulate clusters. The simulated dataset can be accessed in the `Data/DataSimulated` folder. 
 
 ```{r}
 ### Libraries 
@@ -36,10 +36,9 @@ source("Code/01_CleanStudyData.R")
 source("Code/02_SimulateClusters.R")
 ```
 
-- Plot the binary heatmap (this should be a file of its own to make heat maps based on the data) 
+We plot the binary adherence of each participant stratified by their true cluster assignment. In the plot below, black indicates a day in which the participant did not weigh in while yellow indicates a day in which the participant did weigh in. The plot is sorted by overall \% adherence, with lowest adherence on the bottom. 
 
 ```{r simfig, fig.width = 15}
-#### Function not incorporated yet
 #### Sort by % adherence
 source("Code/ClusterHeatmap.R")
 

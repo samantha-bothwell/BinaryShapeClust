@@ -12,8 +12,8 @@
 library(tidyverse) # data wrangling
 
 ### Source MakeClusters function
-source("MakeClusters.R")
-source("01_CleanStudyData.R")
+source("Code/MakeClusters.R")
+source("Code/01_CleanStudyData.R")
 
 ### Initialize number of days
 days = 365
