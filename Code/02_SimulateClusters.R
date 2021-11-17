@@ -87,3 +87,4 @@ sim_clust = sim_dat %>%
 
 adherence_mat = as.matrix(sim_clust[,-c(1:3)])
 rownames(adherence_mat) <- sim_clust$id
+
