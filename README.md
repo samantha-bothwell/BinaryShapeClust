@@ -26,6 +26,8 @@ library(dtwclust) # cluster time series with dynamic time warping
 library(ecodist) # distance function for jaccard
 library(kableExtra)
 
+### gtsummary package
+
 ### Source files
 source("Code/01_CleanStudyData.R")
 source("Code/02_SimulateClusters.R")
@@ -146,10 +148,88 @@ sim_clust$cluster_label <- ifelse(sim_clust$cluster_label == "low", 1,
 # Provide true clusters for external validation
 external_validation = validation(cut_matrix = cut, true_clusters = sim_clust$cluster_label)
 
-external_validation
-#>         ARI        RI         J        FM       VI
-#> 1 0.7755102 0.9191919 0.7037037 0.8388705 0.120412
+kable(external_validation)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+ARI
+
+</th>
+
+<th style="text-align:right;">
+
+RI
+
+</th>
+
+<th style="text-align:right;">
+
+J
+
+</th>
+
+<th style="text-align:right;">
+
+FM
+
+</th>
+
+<th style="text-align:right;">
+
+VI
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+0.9526602
+
+</td>
+
+<td style="text-align:right;">
+
+0.9816162
+
+</td>
+
+<td style="text-align:right;">
+
+0.9325926
+
+</td>
+
+<td style="text-align:right;">
+
+0.9657083
+
+</td>
+
+<td style="text-align:right;">
+
+0.0562365
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 If we do not know the true cluster assingment, we can use internal
 validation indices instead. The Validation Indices pdf provides detail
@@ -159,7 +239,73 @@ about how each validation index is calculated.
 # Provide original matrix and distance for internal validation
 internal_validation = validation(matrix = roll_mat, distance = dtw_dist_roll, cut_matrix = cut)
 
-internal_validation
-#>   Silhouette      Dunn DaviesBouldin Calinhara
-#> 1  0.5806613 0.3039724     0.8451814  35.61037
+kable(internal_validation)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Silhouette
+
+</th>
+
+<th style="text-align:right;">
+
+Dunn
+
+</th>
+
+<th style="text-align:right;">
+
+DaviesBouldin
+
+</th>
+
+<th style="text-align:right;">
+
+Calinhara
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+0.5918745
+
+</td>
+
+<td style="text-align:right;">
+
+0.2641509
+
+</td>
+
+<td style="text-align:right;">
+
+0.9151558
+
+</td>
+
+<td style="text-align:right;">
+
+35.95916
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>

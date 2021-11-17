@@ -32,6 +32,8 @@ library(dtwclust) # cluster time series with dynamic time warping
 library(ecodist) # distance function for jaccard
 library(kableExtra)
 
+### gtsummary package
+
 ### Source files
 source("Code/01_CleanStudyData.R")
 source("Code/02_SimulateClusters.R")
@@ -131,7 +133,7 @@ sim_clust$cluster_label <- ifelse(sim_clust$cluster_label == "low", 1,
 # Provide true clusters for external validation
 external_validation = validation(cut_matrix = cut, true_clusters = sim_clust$cluster_label)
 
-external_validation
+kable(external_validation)
   
 ```
 
@@ -141,7 +143,7 @@ If we do not know the true cluster assingment, we can use internal validation in
 # Provide original matrix and distance for internal validation
 internal_validation = validation(matrix = roll_mat, distance = dtw_dist_roll, cut_matrix = cut)
 
-internal_validation
+kable(internal_validation)
 
 ```
 
