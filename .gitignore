@@ -3,4 +3,5 @@
 DataRaw/
 DataProcessed/
 .DS_Store
-.gitnore
+.gitignore
+README_files/
