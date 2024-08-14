@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 This repository is accompanies “Pattern-Based Clustering of Daily Weigh-In
-Trajectories using Dynamic Time Warping” (DOI : 10.1111/biom.13773). The aim of the paper was
+Trajectories using Dynamic Time Warping” (DOI : [10.1111/biom.13773]). The aim of the paper was
 to use Dynamic Time Warping, a shape-based clutering method, to cluster
 binary trajectories and evaluate patterns. Study data is not made
 publically available, however simulated data to resemble the study data
