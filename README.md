@@ -26,8 +26,6 @@ library(dtwclust) # cluster time series with dynamic time warping
 library(ecodist) # distance function for jaccard
 library(kableExtra)
 
-### gtsummary package
-
 ### Source files
 source("Code/01_CleanStudyData.R")
 source("Code/02_SimulateClusters.R")
